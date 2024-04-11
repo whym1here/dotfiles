@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="spaceship"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -70,7 +70,6 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-# plugins=(git zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting zsh-autocomplete)
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
@@ -101,39 +100,15 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# For startship
-eval "$(starship init zsh)"
-
 # Aliases
 alias cprun="/home/dhaval/scripts/cprun.sh"
-alias cppalpha="cp /home/dhaval/scripts/template.cpp"
-alias vi="nvim"
-alias cplib="/home/dhaval/scripts/code-repo.py"
-
+alias cpptemp="cp /home/dhaval/scripts/tempcpp.cpp"
+alias cpout=="/home/dhaval/scripts/cpout.sh"
+alias cpruni="/home/dhaval/scripts/cpruni.sh"
+alias cprunio="/home/dhaval/scripts/cprunio.sh"
 # WSL Aliases
 alias paste.exe='powershell.exe -command "Get-Clipboard"'
 
+
 # For GUI apps to work without constant error message on terminal
 export SPACESHIP_BATTERY_SHOW=false
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# set PATH for go
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-
-# set PATH for mojo
-export MODULAR_HOME="/home/dhaval/.modular"
-export PATH="/home/dhaval/.modular/pkg/packages.modular.com_nightly_mojo/bin:$PATH"
-
-# set Neovim as Default editor for github
-export GIT_EDITOR=nvim
-
-# set emacs
-alias em="emacs -nw"
-
-# set print_colors
-alias print_colors="$HOME/scripts/print_colors.sh"
