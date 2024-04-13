@@ -94,8 +94,8 @@ config.colors = {
     -- The color of the split lines between panes
     split = "#6272a4",
 
-    ansi = {"#21222C", "#FF5555", "#50FA7B", "#F1FA8C", "#BD93F9", "#FF79C6", "#8BE9FD", "#BBBBBB"},
-    brights = {"#545454", "#FF6E6E", "#69FF94", "#FFCB6B", "#D6ACFF", "#FF92DF", "#A4FFFF", "#FFFFFF"},
+    ansi = {"#21222C", "#FF5555", "#50FA7B", "#FFCB6B", "#BD93F9", "#FF79C6", "#8BE9FD", "#BBBBBB"},
+    brights = {"#545454", "#FF6E6E", "#69FF94", "#F1FA8C", "#D6ACFF", "#FF92DF", "#A4FFFF", "#FFFFFF"},
 
     -- Since: nightly builds only
     -- When the IME, a dead key or a leader key are being processed and are effectively
