@@ -74,20 +74,30 @@ local plugins = {
   {
     'goolord/alpha-nvim',
   },
-  -- {
-  --   'nvim-lualine/lualine.nvim',
-  --   dependencies = { 'nvim-tree/nvim-web-devicons' }
-  -- },
-  -- {
-  --   'romgrk/barbar.nvim',
-  --   dependencies = {
-  --     'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
-  --     'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
-  --   },
-  --   init = function() vim.g.barbar_auto_setup = false end,
-  --   opts = {},
-  --   version = '^1.0.0', -- optional: only update when a new 1.x version is released
-  -- },
+  {
+    "utilyre/barbecue.nvim",
+    name = "barbecue",
+    version = "*",
+    dependencies = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    opts = {
+      -- configurations go here
+    },
+  },
+  {
+    'nanozuki/tabby.nvim',
+    event = 'VimEnter',
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    config = function()
+      -- configs...
+    end,
+  },
+  { 
+    'echasnovski/mini.statusline', 
+    version = '*' 
+  },
 }
 
 local opts = {}
@@ -205,50 +215,6 @@ cmp.setup({
   })
 })
 
-
--- [[lualine: statusline]]
--- ref:
--- require('lualine').setup {
---   options = {
---     icons_enabled = true,
---     theme = 'auto',
---     component_separators = { left = '', right = ''},
---     section_separators = { left = '', right = ''},
---     disabled_filetypes = {
---       statusline = {},
---       winbar = {},
---     },
---     ignore_focus = {},
---     always_divide_middle = true,
---     globalstatus = false,
---     refresh = {
---       statusline = 1000,
---       tabline = 1000,
---       winbar = 1000,
---     }
---   },
---   sections = {
---     lualine_a = {'mode'},
---     lualine_b = {'branch', 'diff', 'diagnostics'},
---     lualine_c = {'filename'},
---     lualine_x = {'encoding', 'fileformat', 'filetype'},
---     lualine_y = {'progress'},
---     lualine_z = {'location'}
---   },
---   inactive_sections = {
---     lualine_a = {},
---     lualine_b = {},
---     lualine_c = {'filename'},
---     lualine_x = {'location'},
---     lualine_y = {},
---     lualine_z = {}
---   },
---   tabline = {},
---   winbar = {},
---   inactive_winbar = {},
---   extensions = {}
--- }
-
 -- [[neovim: reset cursor]]
 -- ref: https://github.com/alacritty/alacritty/issues/5450
 -- vim.api.nvim_create_autocmd("ExitPre", {
@@ -294,6 +260,84 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	end,
 })
 
+
+-- [[barbecue.nvim: VS Code like winbar]]
+-- ref: https://github.com/utilyre/barbecue.nvim
+vim.opt.updatetime = 200 -- triggers CursorHold event faster
+require("barbecue").setup({
+  create_autocmd = false, -- prevent barbecue from updating itself automatically
+})
+vim.api.nvim_create_autocmd(
+  {
+    "WinScrolled", -- or WinResized on NVIM-v0.9 and higher
+    "BufWinEnter",
+    "CursorHold",
+    "InsertLeave",
+
+    -- include this if you have set `show_modified` to `true`
+    "BufModifiedSet",
+  }, 
+  {
+    group = vim.api.nvim_create_augroup("barbecue.updater", {}),
+    callback = function()
+      require("barbecue.ui").update()
+    end,
+  }
+)
+
+
+-- [[tabby.nvim: tabui]] 
+-- ref: https://github.com/nanozuki/tabby.nvim
+local tabline_theme = {
+  fill = 'TabLineFill',
+  -- Also you can do this: fill = { fg='#f2e9de', bg='#907aa9', style='italic' }
+  head = 'TabLine',
+  current_tab = 'TabLineSel',
+  tab = 'TabLine',
+  win = 'TabLine',
+  tail = 'TabLine',
+}
+require('tabby.tabline').set(function(line)
+  return {
+    {
+      { '  ', hl = tabline_theme.head },
+      line.sep('|', tabline_theme.head, tabline_theme.fill),
+    },
+    line.tabs().foreach(function(tab)
+      local hl = tab.is_current() and tabline_theme.current_tab or tabline_theme.tab
+      return {
+        line.sep('|', hl, tabline_theme.fill),
+        tab.is_current() and '' or '󰆣',
+        tab.number(),
+        tab.name(),
+        tab.close_btn(''),
+        line.sep('|', hl, tabline_theme.fill),
+        hl = hl,
+        margin = ' ',
+      }
+    end),
+    line.spacer(),
+    line.wins_in_tab(line.api.get_current_tab()).foreach(function(win)
+      return {
+        line.sep('|', tabline_theme.win, tabline_theme.fill),
+        win.is_current() and '' or '',
+        win.buf_name(),
+        line.sep('|', tabline_theme.win, tabline_theme.fill),
+        hl = tabline_theme.win,
+        margin = ' ',
+      }
+    end),
+    {
+      line.sep('|', tabline_theme.tail, tabline_theme.fill),
+      { '  ', hl = tabline_theme.tail },
+    },
+    hl = tabline_theme.fill,
+  }
+end)
+
+-- [[mini-statusline: status line]]
+-- ref: https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-statusline.md
+require('mini.statusline').setup()
 
 -- [[sync clipboard: for wsl]]
 -- ref: https://www.reddit.com/r/neovim/comments/vxdjyb/neovim_in_wsl2_cant_copypaste_tofrom_system/
