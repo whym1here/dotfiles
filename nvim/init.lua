@@ -5,7 +5,7 @@ local tab_length = 2
 
 -- [[setting defaults]]
 vim.g.mapleader = leader_key
-vim.opt.tabstop = tab_length 
+vim.opt.tabstop = tab_length
 vim.opt.shiftwidth = tab_length
 vim.opt.softtabstop = tab_length
 vim.opt.autoindent = true
@@ -14,16 +14,17 @@ vim.opt.relativenumber = true
 
 -- [[plugins: lazy.nvim]]
 local plugins = {
-  { 
-    "AstroNvim/astrotheme", 
-    priority = 1000 
+  {
+    "AstroNvim/astrotheme",
+    priority = 1000
   },
   {
-    'nvim-telescope/telescope.nvim', tag = '0.1.5',
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.5',
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
   {
-    "nvim-treesitter/nvim-treesitter", 
+    "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate"
   },
   {
@@ -37,7 +38,7 @@ local plugins = {
     config = true
   },
   {
-    'VonHeikemen/lsp-zero.nvim', 
+    'VonHeikemen/lsp-zero.nvim',
     branch = 'v3.x'
   },
   {
@@ -94,16 +95,16 @@ local plugins = {
       -- configs...
     end,
   },
-  { 
-    'echasnovski/mini.statusline', 
-    version = '*' 
+  {
+    'echasnovski/mini.statusline',
+    version = '*'
   },
 }
 
 local opts = {}
 
 
--- [[lazy: package manager]] 
+-- [[lazy: package manager]]
 -- ref: https://github.com/folke/lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
@@ -145,7 +146,7 @@ configs.setup({
   ensure_installed = { "c", "cpp", "python", "lua" },
   sync_install = false,
   highlight = { enable = true },
-  indent = { enable = true },  
+  indent = { enable = true },
 })
 
 
@@ -155,7 +156,7 @@ local lsp_zero = require('lsp-zero')
 
 lsp_zero.on_attach(function(client, bufnr)
   -- see :help lsp-zero-keybindings
-  lsp_zero.default_keymaps({buffer = bufnr})
+  lsp_zero.default_keymaps({ buffer = bufnr })
 end)
 
 
@@ -173,7 +174,7 @@ require('mason-lspconfig').setup({
 -- [[autopairs: for brackets]]
 -- ref: https://github.com/windwp/nvim-autopairs
 require('nvim-autopairs').setup({
-  disable_filetype = { "TelescopePrompt" , "vim" },
+  disable_filetype = { "TelescopePrompt", "vim" },
 })
 
 
@@ -200,7 +201,7 @@ local cmp_action = require('lsp-zero').cmp_action()
 cmp.setup({
   mapping = cmp.mapping.preset.insert({
     -- `Enter` key to confirm completion
-    ['<CR>'] = cmp.mapping.confirm({select = false}),
+    ['<CR>'] = cmp.mapping.confirm({ select = false }),
 
     -- Ctrl+Space to trigger completion menu
     ['<C-Space>'] = cmp.mapping.complete(),
@@ -221,7 +222,7 @@ cmp.setup({
 --   group = vim.api.nvim_create_augroup("Exit", { clear = true }),
 --   command = "set guicursor=a:hor20-blinkwait100-blinkoff100-blinkon100", -- a:hor20-Cursor", default = a:ver90
 --   desc = "Set cursor back to beam when leaving Neovim."
--- }) 
+-- })
 
 -- [[presistant save]]
 -- ref: https://toddknutson.bio/posts/how-to-enable-neovim-undo-backup-and-swap-files-when-switching-linux-groups/
@@ -266,7 +267,7 @@ end
 
 -- [[barbecue.nvim: VS Code like winbar]]
 -- ref: https://github.com/utilyre/barbecue.nvim
-vim.opt.updatetime = 200 -- triggers CursorHold event faster
+vim.opt.updatetime = 200  -- triggers CursorHold event faster
 require("barbecue").setup({
   create_autocmd = false, -- prevent barbecue from updating itself automatically
 })
@@ -279,7 +280,7 @@ vim.api.nvim_create_autocmd(
 
     -- include this if you have set `show_modified` to `true`
     "BufModifiedSet",
-  }, 
+  },
   {
     group = vim.api.nvim_create_augroup("barbecue.updater", {}),
     callback = function()
@@ -289,7 +290,7 @@ vim.api.nvim_create_autocmd(
 )
 
 
--- [[tabby.nvim: tabui]] 
+-- [[tabby.nvim: tabui]]
 -- ref: https://github.com/nanozuki/tabby.nvim
 local tabline_theme = {
   fill = 'TabLineFill',
@@ -360,4 +361,3 @@ if vim.fn.has("wsl") == 1 then
     cache_enabled = 0,
   }
 end
-
