@@ -178,11 +178,18 @@ return {
   default_cursor_style = "BlinkingUnderline",
   default_prog = { 'powershell.exe' },
 
-  -- Tab bar look
+  -- Tabbar
   -- hide_tab_bar_if_only_one_tab = true,
   use_fancy_tab_bar = false,
   tab_max_width = 60,
-  window_decorations = "RESIZE",
+
+  -- Window
+  window_decorations = "INTEGRATED_BUTTONS | RESIZE",
+  adjust_window_size_when_changing_font_size = false,
+  integrated_title_button_style = "Windows",
+  integrated_title_button_color = "auto",
+  integrated_title_button_alignment = "Right",
+  window_close_confirmation = 'AlwaysPrompt',
 
   -- Keys
   send_composed_key_when_left_alt_is_pressed = false,
@@ -198,24 +205,19 @@ return {
   tabs.setup(),
 
   hyperlink_rules = {
-    -- Linkify things that look like URLs
-    {
+    { -- Linkify things that look like URLs
       regex = "\\b\\w+://(?:[\\w.-]+)\\.[a-z]{2,15}\\S*\\b",
       format = "$0",
     },
-    -- match the URL with a PORT
-    -- such 'http://localhost:3000/index.html'
-    {
+    { -- match the URL with a PORT such 'http://localhost:3000/index.html'
       regex = "\\b\\w+://(?:[\\w.-]+):\\d+\\S*\\b",
       format = "$0",
     },
-    -- linkify email addresses
-    {
+    { -- linkify email addresses
       regex = "\\b\\w+@[\\w-]+(\\.[\\w-]+)+\\b",
       format = "mailto:$0",
     },
-    -- file:// URI
-    {
+    { -- file:// URI
       regex = "\\bfile://\\S*\\b",
       format = "$0",
     },
